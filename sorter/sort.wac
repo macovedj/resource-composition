@@ -1,0 +1,6 @@
+package macovedj:fullsort;
+
+let goodmap = new macovedj:oscar-goodmap {...};
+let sorter = new macovedj:oscar-sorter {"macovedj:shapes/goodmap": goodmap.goodmap, ...};
+
+export sorter.sorter as sorter;

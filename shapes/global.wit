@@ -1,0 +1,62 @@
+package macovedj:shapes;
+
+interface goodmap {
+  resource goodmap {
+    constructor();
+    insert: func(name: string, job: string);
+    get: func(name: string) -> option<string>;
+    keys: func() -> list<string>;
+  }
+}
+
+world local-goodmap {
+  import goodmap;
+  export goodmap;
+}
+
+world client-regoodmap {
+  include wasi:http/imports@0.2.0;
+  export goodmap;
+}
+
+interface hashimap {
+  insert: func(name: string, job: string);
+  get: func(name: string) -> option<string>;
+  keys: func() -> list<string>;
+}
+
+world client-hashimap {
+  include wasi:http/imports@0.2.0;
+  export hashimap;
+}
+
+world local-hashimap {
+  export hashimap;
+}
+
+world hashimap-service {
+  import hashimap;
+  import wasi:http/incoming-handler@0.2.0;
+  export wasi:http/incoming-handler@0.2.0;
+}
+
+interface sorter {
+  sort: func() -> list<string>;
+}
+
+world local-sorter {
+  import goodmap;
+  export sorter;
+}
+
+world client-sorter {
+  import hashimap;
+  export sorter;
+}
+
+world sorter-service {
+  import hashimap;
+  import sorter;
+  import wasi:http/incoming-handler@0.2.0;
+  export wasi:http/incoming-handler@0.2.0;
+}
